@@ -72,8 +72,8 @@ default_init_memmap(struct Page *base, size_t n) {
       /* 2012011352 code here */
 
     assert(n > 0);
-   
-    for (struct Page *p = base; p != base + n; p ++) {
+    struct Page *p = base;
+    for (; p != base + n; p ++) {
         assert(PageReserved(p));
         p->flags = 0;
         SetPageProperty(p);
