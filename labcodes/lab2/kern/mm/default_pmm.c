@@ -98,8 +98,8 @@ default_alloc_pages(size_t n) {
       struct Page *p = le2page(le, page_link);
       if(p->property >= n){
         int i=0;
-        struct Page* tmp;
-        for(i;i<n;i++){
+        struct list_entry_t* tmp;
+        for(;i<n;i++){
           tmp = list_next(le);
           struct Page *page = le2page(le, page_link);
           SetPageReserved(page);
