@@ -347,7 +347,7 @@ pmm_init(void) {
 // return vaule: the kernel virtual address of this pte
 pte_t *
 get_pte(pde_t *pgdir, uintptr_t la, bool create) {
-    /* LAB2 EXERCISE 2: YOUR CODE
+    /* LAB2 EXERCISE 2: 2012011352
      *
      * If you need to visit a physical address, please use KADDR()
      * please read pmm.h for useful macros
@@ -368,26 +368,25 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
      *   PTE_W           0x002                   // page table/directory entry flags bit : Writeable
      *   PTE_U           0x004                   // page table/directory entry flags bit : User can access
      */
-#if 0
-    pde_t *pdep = NULL;   // (1) find page directory entry
-    if (0) {              // (2) check if entry is not present
-                          // (3) check if creating is needed, then alloc page for page table
-                          // CAUTION: this page is used for page table, not for common data page
-                          // (4) set page reference
-        uintptr_t pa = 0; // (5) get linear address of page
-                          // (6) clear page content using memset
-                          // (7) set page directory entry's permission
-    }
-    return NULL;          // (8) return page table entry
-#endif
+
+
+    // 找到页目录项
     pde_t *pdep = &pgdir[PDX(la)];
+    // 如果不存在
     if (!(*pdep & PTE_P)) {
         struct Page *page;
-        if (!create || (page = alloc_page()) == NULL) {
+        
+        if (! create )
+        return NULL;
+    
+        page = alloc_page();
+        if ( page == NULL )
             return NULL;
-        }
+         
+        // 设置flag   
         set_page_ref(page, 1);
         uintptr_t pa = page2pa(page);
+        // 清空
         memset(KADDR(pa), 0, PGSIZE);
         *pdep = pa | PTE_U | PTE_W | PTE_P;
     }
