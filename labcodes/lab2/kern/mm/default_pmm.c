@@ -139,7 +139,7 @@ default_free_pages(struct Page *base, size_t n) {
     }
 
    // 添加空闲page
-   p = base；
+   p = base;
    for(; p < base+n; p ++){
       list_add_before(le, &(p->page_link));
     }
