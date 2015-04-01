@@ -411,7 +411,7 @@ get_page(pde_t *pgdir, uintptr_t la, pte_t **ptep_store) {
 //note: PT is changed, so the TLB need to be invalidate 
 static inline void
 page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) {
-    /* LAB2 EXERCISE 3: YOUR CODE
+    /* LAB2 EXERCISE 3: 2012011352
      *
      * Please check if ptep is valid, and tlb must be manually updated if mapping is updated
      *
@@ -427,20 +427,16 @@ page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) {
      * DEFINEs:
      *   PTE_P           0x001                   // page table/directory entry flags bit : Present
      */
-#if 0
-    if (0) {                      //(1) check if page directory is present
-        struct Page *page = NULL; //(2) find corresponding page to pte
-                                  //(3) decrease page reference
-                                  //(4) and free this page when page reference reachs 0
-                                  //(5) clear second page table entry
-                                  //(6) flush tlb
-    }
-#endif
+
+
+    // 如果该目录项存在
     if (*ptep & PTE_P) {
         struct Page *page = pte2page(*ptep);
+        // 引用减少
         if (page_ref_dec(page) == 0) {
             free_page(page);
         }
+        // 删去目录项
         *ptep = 0;
         tlb_invalidate(pgdir, la);
     }
