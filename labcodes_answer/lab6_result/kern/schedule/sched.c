@@ -83,7 +83,7 @@ schedule(void) {
     {
         current->need_resched = 0;
         if (current->state == PROC_RUNNABLE) {
-            cprintf("switch from process %d\n", current->pid);
+            cprintf("switch from process %d", current->pid);
 
             sched_class_enqueue(current);
         }
