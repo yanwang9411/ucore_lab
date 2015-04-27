@@ -500,6 +500,7 @@ do_exit(int error_code) {
     }
     local_intr_restore(intr_flag);
     
+    cprintf("schedule when process %d exit\n", current->pid);
     schedule();
     panic("do_exit will not return!! %d.\n", current->pid);
 }
@@ -734,6 +735,7 @@ repeat:
     if (haskid) {
         current->state = PROC_SLEEPING;
         current->wait_state = WT_CHILD;
+        cprintf("schedule when process %d wait\n", current->pid);
         schedule();
         if (current->flags & PF_EXITING) {
             do_exit(-E_KILLED);
@@ -832,6 +834,7 @@ init_main(void *arg) {
     }
 
     while (do_wait(0, NULL) == 0) {
+      cprintf("init_main process keep on scheduling\n");
         schedule();
     }
 
@@ -887,6 +890,7 @@ void
 cpu_idle(void) {
     while (1) {
         if (current->need_resched) {
+            cprintf("the first kernel thread schedule\n");
             schedule();
         }
     }
