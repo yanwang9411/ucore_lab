@@ -86,6 +86,7 @@ schedule(void) {
             sched_class_enqueue(current);
         }
         if ((next = sched_class_pick_next()) != NULL) {
+            cprintf("switch to process %d", next->pid);
             sched_class_dequeue(next);
         }
         if (next == NULL) {
