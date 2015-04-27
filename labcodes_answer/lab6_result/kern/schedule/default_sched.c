@@ -61,7 +61,6 @@ stride_enqueue(struct run_queue *rq, struct proc_struct *proc) {
 #if USE_SKEW_HEAP
      rq->lab6_run_pool =
           skew_heap_insert(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-     cprintf("enqueue process id = %d\n", proc->pid);
 #else
      assert(list_empty(&(proc->run_link)));
      list_add_before(&(rq->run_list), &(proc->run_link));
@@ -87,7 +86,6 @@ stride_dequeue(struct run_queue *rq, struct proc_struct *proc) {
 #if USE_SKEW_HEAP
      rq->lab6_run_pool =
           skew_heap_remove(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-               cprintf("dequeue process id = %d\n", proc->pid);
 
 #else
      assert(!list_empty(&(proc->run_link)) && proc->rq == rq);
@@ -134,7 +132,6 @@ stride_pick_next(struct run_queue *rq) {
           p->lab6_stride += BIG_STRIDE;
      else p->lab6_stride += BIG_STRIDE / p->lab6_priority;
      
-     cprintf("pick process id = %d\n", p->pid);
 
      return p;
 }
