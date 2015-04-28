@@ -133,6 +133,7 @@ stride_pick_next(struct run_queue *rq) {
      else p->lab6_stride += BIG_STRIDE / p->lab6_priority;
      
 
+     cprintf("----- schedule : pick up process id = %d , stride = %d \n" , p->pid, p->lab6_stride);
      return p;
 }
 
