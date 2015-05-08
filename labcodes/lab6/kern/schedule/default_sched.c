@@ -60,11 +60,7 @@ static void
 stride_enqueue(struct run_queue *rq, struct proc_struct *proc) {
      /* LAB6: 2012011352 */
      rq->lab6_run_pool = skew_heap_insert(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-     
-     //if (proc->time_slice == 0 || proc->time_slice > rq->max_time_slice) {
-          proc -> time_slice = rq -> max_time_slice;
-    // }
-     
+     proc -> time_slice = rq -> max_time_slice;
      rq->proc_num ++;
      proc->rq = rq;
 }
@@ -99,28 +95,10 @@ stride_dequeue(struct run_queue *rq, struct proc_struct *proc) {
 static struct proc_struct *
 stride_pick_next(struct run_queue *rq) {
      /* LAB6: 2012011352 */
-#if USE_SKEW_HEAP
      if (rq->lab6_run_pool == NULL) return NULL;
      struct proc_struct *p = le2proc(rq->lab6_run_pool, lab6_run_pool);
-#else
-     list_entry_t *le = list_next(&(rq->run_list));
 
-     if (le == &rq->run_list)
-          return NULL;
-     
-     struct proc_struct *p = le2proc(le, run_link);
-     le = list_next(le);
-     while (le != &rq->run_list)
-     {
-          struct proc_struct *q = le2proc(le, run_link);
-          if ((int32_t)(p->lab6_stride - q->lab6_stride) > 0)
-               p = q;
-          le = list_next(le);
-     }
-#endif
-     if (p->lab6_priority == 0)
-          p->lab6_stride += BIG_STRIDE;
-     else p->lab6_stride += BIG_STRIDE / p->lab6_priority;
+     p->lab6_stride += BIG_STRIDE / (p->lab6_priority + 1);
      return p;
 }
 
@@ -134,13 +112,10 @@ stride_pick_next(struct run_queue *rq) {
  */
 static void
 stride_proc_tick(struct run_queue *rq, struct proc_struct *proc) {
-     /* LAB6: YOUR CODE */
-     if (proc->time_slice > 0) {
-          proc->time_slice --;
-     }
-     if (proc->time_slice == 0) {
+     /* LAB6: 2012011352 */
+     if (proc->time_slice == 0) 
           proc->need_resched = 1;
-     }
+     else proc->time_slice--;
 }
 
 struct sched_class default_sched_class = {
