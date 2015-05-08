@@ -45,11 +45,15 @@ struct sched_class {
 > > proc_tick ： 将当前运行进程的timeslice －1 ， 若时间片用光，则进入调度
 
 ###多级反馈队列调度算法：
-> > 
-#### 数据结构： 将run_queue *rq 改为rq数组，大小等于优先级数，用于存储不同优先级的进程队列，其中优先级越高的rq，timeslice越短。
+
+#### 数据结构： 将run_queue *rq
+> >
+> > 改为rq数组，大小等于优先级数，用于存储不同优先级的进程队列，其中优先级越高的rq，timeslice越短。
 
 > > 
+
 #### sched_class的函数实现：
+
 > > 
 > > enqueue：
 将当前进程加到proc->priority相应的优先级队列
@@ -70,8 +74,7 @@ struct sched_class {
 
 
 
-
- ##练习2：
+## 练习2：
 
 ### stride_schedule的设计实现：
 
@@ -81,11 +84,15 @@ struct sched_class {
 >  > 
 >  > 设proc->rq = rq; number + 1;
 >  >
+
 #### dequeue：
+> > 
 >  > 移出堆顶; number -1;
 
 ####pick_next:
-选取 lab6_run_pool 的堆顶
+> > 
+> > 选取 lab6_run_pool 的堆顶
 
 ####proc_tick:
-将timeslice－1 若为0，则将当前进程设置为需要调度
+
+> > 将timeslice－1 若为0，则将当前进程设置为需要调度
