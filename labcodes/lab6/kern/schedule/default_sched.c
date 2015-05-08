@@ -59,18 +59,14 @@ stride_init(struct run_queue *rq) {
 static void
 stride_enqueue(struct run_queue *rq, struct proc_struct *proc) {
      /* LAB6: 2012011352 */
-#if USE_SKEW_HEAP
-     rq->lab6_run_pool =
-          skew_heap_insert(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-#else
-     assert(list_empty(&(proc->run_link)));
-     list_add_before(&(rq->run_list), &(proc->run_link));
-#endif
-     if (proc->time_slice == 0 || proc->time_slice > rq->max_time_slice) {
-          proc->time_slice = rq->max_time_slice;
-     }
-     proc->rq = rq;
+     rq->lab6_run_pool = skew_heap_insert(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
+     
+     //if (proc->time_slice == 0 || proc->time_slice > rq->max_time_slice) {
+          proc -> time_slice = rq -> max_time_slice;
+    // }
+     
      rq->proc_num ++;
+     proc->rq = rq;
 }
 
 /*
@@ -83,14 +79,8 @@ stride_enqueue(struct run_queue *rq, struct proc_struct *proc) {
  */
 static void
 stride_dequeue(struct run_queue *rq, struct proc_struct *proc) {
-     /* LAB6: YOUR CODE */
-#if USE_SKEW_HEAP
-     rq->lab6_run_pool =
-          skew_heap_remove(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-#else
-     assert(!list_empty(&(proc->run_link)) && proc->rq == rq);
-     list_del_init(&(proc->run_link));
-#endif
+     /* LAB6: 2012011352 */
+     rq->lab6_run_pool = skew_heap_remove(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
      rq->proc_num --;
 }
 /*
@@ -108,7 +98,7 @@ stride_dequeue(struct run_queue *rq, struct proc_struct *proc) {
  */
 static struct proc_struct *
 stride_pick_next(struct run_queue *rq) {
-     /* LAB6: YOUR CODE */
+     /* LAB6: 2012011352 */
 #if USE_SKEW_HEAP
      if (rq->lab6_run_pool == NULL) return NULL;
      struct proc_struct *p = le2proc(rq->lab6_run_pool, lab6_run_pool);
