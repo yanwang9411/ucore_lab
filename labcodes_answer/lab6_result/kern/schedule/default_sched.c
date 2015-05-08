@@ -7,8 +7,8 @@
 #define USE_SKEW_HEAP 1
 
 /* You should define the BigStride constant here*/
-/* LAB6: YOUR CODE */
-#define BIG_STRIDE    0x7FFFFFFF /* ??? */
+/* LAB6: 2012011352 */
+#define BIG_STRIDE  0x7FFFFFFF
 
 /* The compare function for two skew_heap_node_t's and the
  * corresponding procs*/
@@ -34,12 +34,13 @@ proc_stride_comp_f(void *a, void *b)
  *
  * hint: see proj13.1/libs/list.h for routines of the list structures.
  */
+ 
 static void
 stride_init(struct run_queue *rq) {
-     /* LAB6: YOUR CODE */
+     /* LAB6: 2012011352 */
      list_init(&(rq->run_list));
-     rq->lab6_run_pool = NULL;
-     rq->proc_num = 0;
+     rq -> proc_num = 0;
+     rq -> lab6_run_pool = NULL;
 }
 
 /*
@@ -57,7 +58,7 @@ stride_init(struct run_queue *rq) {
  */
 static void
 stride_enqueue(struct run_queue *rq, struct proc_struct *proc) {
-     /* LAB6: YOUR CODE */
+     /* LAB6: 2012011352 */
 #if USE_SKEW_HEAP
      rq->lab6_run_pool =
           skew_heap_insert(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
@@ -86,7 +87,6 @@ stride_dequeue(struct run_queue *rq, struct proc_struct *proc) {
 #if USE_SKEW_HEAP
      rq->lab6_run_pool =
           skew_heap_remove(rq->lab6_run_pool, &(proc->lab6_run_pool), proc_stride_comp_f);
-
 #else
      assert(!list_empty(&(proc->run_link)) && proc->rq == rq);
      list_del_init(&(proc->run_link));
@@ -131,9 +131,6 @@ stride_pick_next(struct run_queue *rq) {
      if (p->lab6_priority == 0)
           p->lab6_stride += BIG_STRIDE;
      else p->lab6_stride += BIG_STRIDE / p->lab6_priority;
-     
-
-     cprintf("----- schedule : pick up process id = %d , stride = %d \n" , p->pid, p->lab6_stride);
      return p;
 }
 
