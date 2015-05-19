@@ -141,4 +141,3 @@ dev_init_disk0(void) {
         panic("disk0: vfs_add_dev: %e.\n", ret);
     }
 }
-
