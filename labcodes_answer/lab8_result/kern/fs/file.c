@@ -75,6 +75,7 @@ fd_array_free(struct file *file) {
 
 static void
 fd_array_acquire(struct file *file) {
+    cprintf("get file from array\n");
     assert(file->status == FD_OPENED);
     fopen_count_inc(file);
 }
@@ -211,6 +212,7 @@ file_close(int fd) {
 // read file
 int
 file_read(int fd, void *base, size_t len, size_t *copied_store) {
+    cprintf("file read\n");
     int ret;
     struct file *file;
     *copied_store = 0;
