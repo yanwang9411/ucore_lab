@@ -29,7 +29,7 @@
 
 在lab8中，打开一个文件调用的函数如下：
 ```
-  sysfile_open->file_open->vfs_open->vfs_lookup->vop_lookup(sfs_lookup)->sfs_lookup_once-        >sfs_load_inode->sfs_create_inode->vop_init(inode_init)
+  sysfile_open->file_open->vfs_open->vfs_lookup->vop_lookup(sfs_lookup)->sfs_lookup_once->sfs_load_inode->sfs_create_inode->vop_init(inode_init)
 ```    
 > > 
 > > 
