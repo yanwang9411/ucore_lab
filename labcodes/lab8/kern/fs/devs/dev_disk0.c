@@ -59,7 +59,7 @@ disk0_write_blks_nolock(uint32_t blkno, uint32_t nblks) {
 
 static int
 disk0_io(struct device *dev, struct iobuf *iob, bool write) {
-    off_t= iob->io_offset;
+    off_t offset = iob->io_offset;
     size_t resid = iob->io_resid;
     uint32_t blkno = offset / DISK0_BLKSIZE;
     uint32_t nblks = resid / DISK0_BLKSIZE;
