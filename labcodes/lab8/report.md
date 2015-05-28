@@ -2,9 +2,10 @@
 ## 练习 1: 完成读文件操作的实现（需要编码）
 
 
-###首先了解打开文件的处理流程， 然后参考本实验后续的文件读写操作的过程分析， 编写在sfs_inode.c中sfs_io_nolock读文件中数据的实现代码
+### 首先了解打开文件的处理流程，然后参考本实验后续的文件读写操作的过程分析，编写在sfs_inode.c中sfs_io_nolock读文件中数据的实现代码
 
-实现：   
+> > 
+> > 实现：   
 
 > > 
 > > 在sfs_io_nolock函数中， 将读取的函数操作和sfs绑定，令sfs_buf_op = sfs_rbuf, sfs_block_op = sfs_rblock。
